@@ -1,28 +1,25 @@
-.hours {
-  color: red;
+* {
+  padding: 0;
+  margin: 0;
+}
+.slider {
+  position: relative;
+  width: 300px;
+  height: 15px;
+  border-radius: 25px ;
+  background-color: rgb(196, 195, 195);
+  top: 50px;
+  left: 50px;
 }
 
-.minutes {
-  color: green;
-}
-
-.seconds {
-  color: blue;
-}
-
-.clock {
-  border: 1px dashed black;
-  padding: 5px;
-  display: inline-block;
-  background: yellow;
+.thumb {
   position: absolute;
-  left: 200px;
-  top: 100px;
-}
-
-.tooltip {
-  position: absolute;
-  background: #eee;
-  border: 1px brown solid;
-  padding: 3px;
+  width: 10px;
+  height: 30px;
+  background-color: rgb(93, 93, 241);
+  border-radius: 25px;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  cursor: pointer;
+  overflow: hidden;
 }

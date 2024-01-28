@@ -1,33 +1,26 @@
-document.addEventListener('mouseover',function(event) {
-    if(!event.target.closest('[data-tooltip]')) return
-    addTooltip(event.target.closest('[data-tooltip]'))
-    
-})
+let cursor_hover
+let timeout_id
+let current_elem = document.getElementById('elem')
+let tooltip = document.getElementById('tooltip')
 
-document.addEventListener('mouseout',function(event) {
-    if(!event.target.closest('[data-tooltip]')) return
-    let tooltip = document.querySelector('.tooltip');
-    tooltip.remove()
-})
+function cursor_on_element() {
+	cursor_hover = true
+	timeout_id = setTimeout(hover_check, 400)
 
-function addTooltip(target) {
-    let tooltip = document.createElement('div')
-    tooltip.className = 'tooltip'
-    tooltip.innerHTML = target.getAttribute('data-tooltip')
-    document.body.append(tooltip)
-
-    let coords = target.getBoundingClientRect()
-    let left = coords.left
-    let top = coords.top
-    let tooltipHeight = tooltip.offsetHeight
-    if(top < tooltipHeight) {
-        tooltip.style.top = top + target.offsetHeight + 5 + 'px';
-        tooltip.style.left = (left + target.offsetWidth - tooltip.offsetWidth) / 2 + 'px'
-    } else {
-        tooltip.style.top = top - tooltip.offsetHeight - 5 + 'px';
-        tooltip.style.left = (left + target.offsetWidth - tooltip.offsetWidth) / 2 + 'px'
-    }
-
-    return tooltip
+	function hover_check() {
+		if (cursor_hover) {
+			tooltip.style.left = current_elem.getBoundingClientRect().left + 5 + 'px'
+			tooltip.style.top = current_elem.getBoundingClientRect().bottom + 5 + 'px'
+			tooltip.hidden = false
+		}
+	}
 }
 
+function cursor_out() {
+	tooltip.hidden = true
+	cursor_hover = false
+	clearTimeout(timeout_id)
+}
+
+current_elem.addEventListener('mouseenter', cursor_on_element)
+current_elem.addEventListener('mouseleave', cursor_out)

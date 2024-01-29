@@ -1,20 +1,18 @@
-let slider = document.querySelector('.slider')
-let thumb = document.querySelector('.thumb')
-let thumbOn = false
+function runOnKeys(func,...codes) {
+    let pressKeys = new Set();
+    document.addEventListener('keydown',function(event) {
+        pressKeys.add(event.code)
+        for(let code of codes) {
+            if(!pressKeys.has(code)) return
+        }
+        pressKeys.clear()
+        func()
+    })
 
-function moveThumb(event) {
-    if(!thumbOn) return
-    let left = event.clientX
-    
-	if (
-        left > slider.offsetLeft + slider.offsetWidth ||
-        left < slider.offsetLeft
-	) return
+    document.addEventListener('keyup',function(event) {
+        pressKeys.delete(event.code)
+    })
 
-	thumb.style.left = left - slider.offsetLeft + 'px'
 }
 
-document.addEventListener('mousemove', moveThumb)
-
-thumb.addEventListener('mousedown',()=> thumbOn = true)
-document.addEventListener('mouseup',() => thumbOn = false)
+runOnKeys(()=> {alert('fine')},'KeyT','KeyR')

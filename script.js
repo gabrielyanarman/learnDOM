@@ -1,18 +1,23 @@
-function runOnKeys(func,...codes) {
-    let pressKeys = new Set();
-    document.addEventListener('keydown',function(event) {
-        pressKeys.add(event.code)
-        for(let code of codes) {
-            if(!pressKeys.has(code)) return
-        }
-        pressKeys.clear()
-        func()
-    })
+let html = document.documentElement
 
-    document.addEventListener('keyup',function(event) {
-        pressKeys.delete(event.code)
-    })
+function checkVisibility(elem) {
+    let elemToTop = elem.getBoundingClientRect().top + pageYOffset
+    let visibleArea = pageYOffset + html.clientHeight
 
+    return elemToTop < visibleArea && elemToTop > pageYOffset ? true : false
 }
 
-runOnKeys(()=> {alert('fine')},'KeyT','KeyR')
+function checkOurImg() {
+    for(let img of img_s) {
+        if(checkVisibility(img)) {
+            img.setAttribute('src',img.dataset.src)
+        }
+    } 
+}
+
+let img_s = document.querySelectorAll('img[data-src]')
+
+checkOurImg()
+window.addEventListener('scroll',function(event) {
+    checkOurImg()
+})

@@ -1,40 +1,46 @@
-let mouse = document.getElementById('mouse')
+let modal = document.querySelector('.modal')
+let message = document.querySelector('#prompt-message')
+let form = document.forms[0]
+let question = form.elements.text
+let back = form.elements.cancel
 
-mouse.style.position = 'fixed';
 
-mouse.addEventListener('keydown',function(event) {
-    switch(event.key) {
-        case 'ArrowRight' :
-            arrowRight();
-            break;
-        case 'ArrowLeft' :
-            arrowLeft();
-            break;
-        case 'ArrowUp' :
-            arrowUp();
-            break;
-        case 'ArrowDown' :
-            arrowDown();
-            break
-    }
+opeen.onclick = () => {
+    modal.classList.add('open')
+}
+
+modal.addEventListener('click',function(event) {
+    if(event.target.closest('.page')) return
+    modal.classList.remove('open')
 })
 
-function arrowRight() {
-    let coords = mouse.getBoundingClientRect()
-    mouse.style.left = coords.left + mouse.offsetWidth + 'px'
+function showPrompt(html,callback) {
+    modal.classList.add('open');
+    message.textContent = html
+    form.addEventListener('submit',function(event) {
+        let answer = question.value
+        callback(answer)
+        event.preventDefault()
+        modal.classList.remove('open')
+    })
+
+    back.onclick = function() {
+        callback(null)
+        modal.classList.remove('open')
+    }
+
+    form.addEventListener('keydown',(event) => {
+			if(event.key == 'Escape') {
+                callback(null)
+                modal.classList.remove('open')
+            }
+		})   
+        form.elements.text.focus()    
 }
 
-function arrowLeft() {
-    let coords = mouse.getBoundingClientRect()
-	mouse.style.left = coords.left - mouse.offsetWidth + 'px'
+opeen.onclick = () => {
+    showPrompt('Do you like programming ?', function (a) {
+			alert(a)
+		})
 }
 
-function arrowUp() {
-    let coords = mouse.getBoundingClientRect()
-    mouse.style.top = coords.top - mouse.offsetHeight + 'px'
-}
-
-function arrowDown() {
-    let coords = mouse.getBoundingClientRect()
-	mouse.style.top = coords.top + mouse.offsetHeight + 'px'
-}
